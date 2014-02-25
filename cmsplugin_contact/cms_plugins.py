@@ -111,7 +111,7 @@ class ContactPlugin(CMSPluginBase):
         else:
             return FormClass(request)
 
-    def send(self, form, form_name, site_email, attachments=None):
+    def send_email(self, form, form_name, site_email, attachments=None):
         from_email = getattr(settings, 'DEFAULT_FROM_EMAIL')
 
         subject_template = getattr(form, 'subject_template', self.subject_template)
@@ -151,7 +151,7 @@ class ContactPlugin(CMSPluginBase):
         instance.render_template = getattr(form, 'template', self.render_template)
 
         if request.method == "POST" and form.is_valid():
-            self.send(form, instance.form_name, instance.site_email, attachments=request.FILES)
+            self.send_email(form, instance.form_name, instance.site_email, attachments=request.FILES)
             context.update({
                 'contact': instance,
             })
